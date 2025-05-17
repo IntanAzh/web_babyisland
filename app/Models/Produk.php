@@ -14,77 +14,33 @@ class Produk extends Model
      *
      * @var string
      */
-    protected $table = 'produk';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id_produk';
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = true;
-
-    /**
-     * The "type" of the primary key ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'int';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name_produk',
-        'deskripsi',
-        'harga',
-        'stok',
-        'id_kategori',
-        'image',
+        'user_id', 
+        'kategori_id', 
+        'nama', 
+        'deskripsi', 
+        'harga_perhari', 
+        'stok', 
+        'gambar'
     ];
 
-    /**
-     * Relasi: produk ini milik satu kategori.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'id_kategori');
+        return $this->belongsTo(Kategori::class);
     }
 
-    /**
-     * Relasi: produk ini bisa memiliki banyak reviews.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function reviews()
+    public function pemesanan()
     {
-        return $this->hasMany(Review::class, 'id_produk');
+        return $this->hasMany(Pemesanan::class);
     }
 
-    /**
-     * Relasi: produk ini bisa muncul di banyak order.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function orders()
+    public function review()
     {
-        return $this->hasMany(Pemesanan::class, 'id_produk');
+        return $this->hasMany(Review::class);
     }
 }
