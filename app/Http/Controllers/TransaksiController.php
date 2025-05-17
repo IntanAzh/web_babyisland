@@ -2,49 +2,89 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pemesanan;
 use App\Models\Transaksi;
+use App\Models\Pemesanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TransaksiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function index()
+    {
+        $transaksi = Transaksi::where('user_id', auth()->id())
+            ->with('pemesanan')
+            ->latest()
+            ->paginate(10);
+        return view('transaksi.index', compact('transaksi'));
+    }
+
     public function create(Pemesanan $pemesanan)
     {
+        $this->authorize('create', [Transaksi::class, $pemesanan]);
         return view('transaksi.create', compact('pemesanan'));
     }
 
     public function store(Request $request, Pemesanan $pemesanan)
     {
+        $this->authorize('create', [Transaksi::class, $pemesanan]);
+
         $validated = $request->validate([
-            'nama_bank' => 'required|string|max:50',
-            'nama_pemilik' => 'required|string|max:100',
-            'nomor_rekening' => 'required|string|max:20',
-            'gambar_bukti' => 'required|image|max:2048'
+            'metode_pembayaran' => 'required|in:transfer_bank,e-wallet',
+            'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        $path = $request->file('gambar_bukti')->store('bukti-transfer', 'public');
+        $bukti_pembayaran = $request->file('bukti_pembayaran')
+            ->store('bukti_pembayaran', 'public');
 
-        Transaksi::create([
+        $transaksi = Transaksi::create([
+            'user_id' => auth()->id(),
             'pemesanan_id' => $pemesanan->id,
-            'nama_bank' => $validated['nama_bank'],
-            'nama_pemilik' => $validated['nama_pemilik'],
-            'nomor_rekening' => $validated['nomor_rekening'],
-            'gambar_bukti' => $path,
+            'total_pembayaran' => $pemesanan->total_harga,
+            'metode_pembayaran' => $validated['metode_pembayaran'],
+            'bukti_pembayaran' => $bukti_pembayaran,
             'status' => 'pending'
         ]);
 
-        return redirect()->route('pemesanan.show', $pemesanan)
-            ->with('success', 'Bukti pembayaran berhasil diupload');
+        return redirect()->route('transaksi.show', $transaksi)
+            ->with('success', 'Bukti pembayaran berhasil diunggah dan sedang diverifikasi');
     }
 
-    public function confirm(Transaksi $transaksi)
+    public function show(Transaksi $transaksi)
     {
-        // Hanya admin yang bisa konfirmasi
-        $this->middleware('admin');
-        
-        $transaksi->update(['status' => 'success']);
-        $transaksi->pemesanan->update(['status' => 'diproses']);
+        $this->authorize('view', $transaksi);
+        return view('transaksi.show', compact('transaksi'));
+    }
 
-        return back()->with('success', 'Pembayaran berhasil dikonfirmasi');
+    public function confirm(Request $request, Transaksi $transaksi)
+    {
+        $this->authorize('confirm', $transaksi);
+
+        $transaksi->update(['status' => 'success']);
+        $transaksi->pemesanan->update(['status' => 'processing']);
+
+        return redirect()->route('transaksi.show', $transaksi)
+            ->with('success', 'Pembayaran berhasil dikonfirmasi');
+    }
+
+    public function reject(Request $request, Transaksi $transaksi)
+    {
+        $this->authorize('reject', $transaksi);
+
+        $transaksi->update([
+            'status' => 'failed',
+            'keterangan' => $request->input('keterangan', 'Pembayaran ditolak')
+        ]);
+
+        // Kembalikan stok produk
+        $transaksi->pemesanan->produk->increment('stok', $transaksi->pemesanan->jumlah);
+        $transaksi->pemesanan->update(['status' => 'cancelled']);
+
+        return redirect()->route('transaksi.show', $transaksi)
+            ->with('success', 'Pembayaran berhasil ditolak');
     }
 }

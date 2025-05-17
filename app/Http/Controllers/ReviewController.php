@@ -2,93 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
+use App\Models\Pemesanan;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        $reviews = Review::with('user', 'produk')
+        $reviews = Review::with(['user', 'produk'])
             ->latest()
             ->paginate(10);
-            
         return view('review.index', compact('reviews'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(Pemesanan $pemesanan)
     {
-        //
+        if ($pemesanan->status !== 'completed') {
+            return back()->with('error', 'Anda hanya dapat memberikan ulasan untuk pemesanan yang telah selesai');
+        }
+
+        if ($pemesanan->review()->exists()) {
+            return back()->with('error', 'Anda sudah memberikan ulasan untuk pemesanan ini');
+        }
+
+        return view('review.create', compact('pemesanan'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request, Produk $produk)
+    public function store(Request $request, Pemesanan $pemesanan)
     {
-        $request->validate([
-            'rating' => 'required|integer|between:1,5',
-            'komentar' => 'nullable|string|max:500'
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'komentar' => 'required|string|max:500',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
+        $foto = null;
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto')->store('reviews', 'public');
+        }
 
         Review::create([
             'user_id' => auth()->id(),
-            'produk_id' => $produk->id,
-            'rating' => $request->rating,
-            'komentar' => $request->komentar
+            'produk_id' => $pemesanan->produk_id,
+            'pemesanan_id' => $pemesanan->id,
+            'rating' => $validated['rating'],
+            'komentar' => $validated['komentar'],
+            'foto' => $foto
         ]);
 
-        return redirect()->back()->with('success', 'Ulasan berhasil ditambahkan');
+        return redirect()->route('pemesanan.show', $pemesanan)
+            ->with('success', 'Terima kasih atas ulasan Anda');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Review $review)
     {
-        //
+        return view('review.show', compact('review'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Review $review)
-    {
-        $this->authorize('update', $review);
-        return view('review.edit', compact('review'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Review $review)
-    {
-        $this->authorize('update', $review);
-
-        $request->validate([
-            'rating' => 'required|integer|between:1,5',
-            'komentar' => 'nullable|string|max:500'
-        ]);
-
-        $review->update($request->only('rating', 'komentar'));
-
-        return redirect()->route('produk.show', $review->produk_id)->with('success', 'Ulasan berhasil diperbarui');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Review $review)
     {
         $this->authorize('delete', $review);
+        
+        if ($review->foto) {
+            Storage::disk('public')->delete($review->foto);
+        }
+        
         $review->delete();
-
-        return redirect()->back()
+        return redirect()->route('review.index')
             ->with('success', 'Ulasan berhasil dihapus');
     }
 }

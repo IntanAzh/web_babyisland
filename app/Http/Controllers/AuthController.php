@@ -7,16 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-
 class AuthController extends Controller
 {
-    // Tampilan Login
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.login', ['title' => 'Login']);
     }
 
-    // Proses Login
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -26,45 +23,40 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            
             return $this->redirectBasedOnRole();
         }
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
-        ])->onlyInput('email');
+        ]);
     }
 
-    // Tampilan Registrasi
     public function showRegisterForm()
     {
-        return view('auth.register');
+        return view('auth.register', ['title' => 'Register']);
     }
 
-    // Proses Registrasi
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'no_hp' => 'nullable|string|max:15',
-            'password' => 'required|confirmed|min:8',
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'no_hp' => 'required|numeric'
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'password' => Hash::make($request->password),
-            'role' => 'user' // Default role
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'no_hp' => $validated['no_hp'],
+            'role' => 'user'
         ]);
 
         Auth::login($user);
-
-        return $this->redirectBasedOnRole();
+        return redirect()->route('user.dashboard');
     }
 
-    // Redirect berdasarkan role
     private function redirectBasedOnRole()
     {
         if (auth()->user()->isAdmin()) {
@@ -73,7 +65,6 @@ class AuthController extends Controller
         return redirect()->route('user.dashboard');
     }
 
-    // Logout
     public function logout(Request $request)
     {
         Auth::logout();

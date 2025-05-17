@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Produk;
+use App\Models\Kategori;
 use App\Models\Pemesanan;
 use App\Models\Transaksi;
 
@@ -11,7 +12,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware(['auth', 'admin']);
     }
 
     public function dashboard()
@@ -43,5 +44,35 @@ class AdminController extends Controller
             ->paginate(10);
             
         return view('admin.transactions', compact('transactions'));
+    }
+
+    public function products()
+    {
+        $products = Produk::with('kategori')->paginate(10);
+        return view('admin.products', compact('products'));
+    }
+
+    public function categories()
+    {
+        $categories = Kategori::paginate(10);
+        return view('admin.categories', compact('categories'));
+    }
+
+    public function orders()
+    {
+        $orders = Pemesanan::with(['user', 'produk', 'transaksi'])
+            ->latest()
+            ->paginate(10);
+        return view('admin.orders', compact('orders'));
+    }
+
+    public function updateOrderStatus(Request $request, Pemesanan $order)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:pending,processing,shipped,completed,cancelled'
+        ]);
+
+        $order->update(['status' => $validated['status']]);
+        return back()->with('success', 'Status pesanan berhasil diperbarui');
     }
 }
