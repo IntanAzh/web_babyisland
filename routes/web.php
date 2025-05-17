@@ -2,18 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home', ['title' => 'Home Page']);
-});
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/howtoder', function () {
-    return view('howtoder', ['title' => 'Home  How To Order']);
-});
+Route::get('/register', [AuthController::class, 'showRegisterForm']);
+Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('/category', function () {
-    return view('category', ['title' => 'Home Category']);
-});
-
-Route::get('/login', function () {
-    return view('login', ['title' => 'Home Category']);
-});
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

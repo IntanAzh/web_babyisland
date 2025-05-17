@@ -9,27 +9,17 @@ class Transaksi extends Model
 {
     use HasFactory;
 
-    protected $table = 'transaksi';
-    protected $primaryKey = 'id_transaksi';
-    public $timestamps = false;
-
     protected $fillable = [
-        'id_order',
-        'id_user',
-        'pembayaran',
-        'status',
-        'dibuat',
+        'pemesanan_id',
+        'nama_bank', 
+        'nama_pemilik',
+        'nomor_rekening', 
+        'gambar_bukti', 
+        'status'
     ];
 
-    protected $dates = ['dibuat'];
-
-    public function order()
+    public function pemesanan()
     {
-        return $this->belongsTo(Pemesanan::class, 'id_order');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(Pemesanan::class);
     }
 }

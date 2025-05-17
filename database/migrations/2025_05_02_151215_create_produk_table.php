@@ -5,36 +5,22 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('produk', function (Blueprint $table) {
-            $table->increments('id_produk');            // primary key sesuai nama kolom di DB
-            $table->string('name_produk', 50)->nullable();
-            $table->longText('deskripsi')->nullable();
-            $table->double('harga')->nullable();
-            $table->integer('stok')->nullable();
-
-
-            $table->unsignedInteger('id_kategori')->nullable();
-
-            $table->binary('image')->nullable();
-
+            $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('kategori_id')->constrained('kategori')->onDelete('cascade');
+            $table->string('nama', 100);
+            $table->text('deskripsi');
+            $table->decimal('harga_perhari', 12, 2);
+            $table->integer('stok')->default(0);
+            $table->string('gambar')->nullable();
             $table->timestamps();
-
-            $table->foreign('id_kategori')
-                ->references('id_kategori')
-                ->on('kategori')
-                ->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('produk');
     }

@@ -14,36 +14,13 @@ class kategori extends Model
      *
      * @var string
      */
-    protected $table = 'kategori';
-
-    /**
-     * The primary key associated with the table.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id_kategori';
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = true;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name_kategori',
+        'nama', 
+        'gambar'
     ];
 
-    /**
-     * Get the products for the category.
-     */
     public function produk()
     {
-        return $this->hasMany(Produk::class, 'id_kategori');
+        return $this->hasMany(Produk::class);
     }
 }
