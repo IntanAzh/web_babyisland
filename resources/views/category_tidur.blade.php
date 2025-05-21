@@ -3,11 +3,11 @@
 
     <body class="bg-gray-100">
 
-        <main class="mx-auto p-4 mt-10">
+        <main class="mx-auto p-4 mt-15">
             <section class="category-container flex gap-7">
 
                 <div class="list p-4 bg-[#FEF8EF] flex-1 min-h-screen ">
-                    <h2 class="text-xl font-semibold mb-10">Semua Kategori</h2>
+                    <h2 class="text-xl font-semibold mb-4">Semua Kategori</h2>
                     <div class="categor">
                         <ul class="flex flex-col gap-3">
                             <li>
@@ -23,80 +23,44 @@
                                 </a>
                             </li>
                             <li>
-                                <a
-                                    href="{{ route('category_tidur') }}"class="text-orange-400 font-semibold hover:underline">
-                                    <h3>Tidur & Kenyamanan</h3>
-                                </a>
+                                <h3 class="font-semibold cursor-pointer">Tidur & Kenyamanan</h3>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="produk flex-4 p-7 ">
-                    <h2 class="text-xl font-bold mb-9">Semua Produk</h2>
+                <div class="produk flex-4 ">
+                    <h2 class="text-xl font-bold mb-12">Tidur & Kenyamanan</h2>
                     <div class="flex gap-5 flex-wrap">
                         <div
                             class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <li>
-                                <a href="{{ route('produk') }}"class="text-orange-400 font-semibold hover:underline"><img
-                                        src={{ url('/img/kategori/perlengkapan.png') }} alt="Produk"
-                                        class=" object-cover rounded " width="100px"></a>
-                            </li>
-                            <h3 class="font-semibold mt-2">Car Seat - Maxi Cosi</h3>
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
+                                class=" object-cover rounded " width="100px">
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
                         </div>
                         <div
                             class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/perlengkapan.png') }} alt="Produk"
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
                                 class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Car Seat - Maxi Cosi</h3>
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
                         </div>
                         <div
                             class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/perlengkapan.png') }} alt="Produk"
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
                                 class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Car Seat - Maxi Cosi</h3>
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
                         </div>
                         <div
                             class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/perlengkapan.png') }} alt="Produk"
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
                                 class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Car Seat - Maxi Cosi</h3>
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
                         </div>
                         <div
                             class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/perlengkapan.png') }} alt="Produk"
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
                                 class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Car Seat - Maxi Cosi</h3>
-                        </div>
-                        <div
-                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/mainan.png') }} alt="Produk"
-                                class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Gantungan Anak</h3>
-                        </div>
-                        <div
-                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/mainan.png') }} alt="Produk"
-                                class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Gantungan Anak</h3>
-                        </div>
-                        <div
-                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/mainan.png') }} alt="Produk"
-                                class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Gantungan Anak</h3>
-                        </div>
-                        <div
-                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/mainan.png') }} alt="Produk"
-                                class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Gantungan Anak</h3>
-                        </div>
-                        <div
-                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
-                            <img src={{ url('/img/kategori/mainan.png') }} alt="Produk"
-                                class=" object-cover rounded " width="100px">
-                            <h3 class="font-semibold mt-2">Gantungan Anak</h3>
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
                         </div>
                         <div
                             class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
@@ -128,6 +92,38 @@
                                 class=" object-cover rounded " width="100px">
                             <h3 class="font-semibold mt-2">Kasur Bayi</h3>
                         </div>
+                        <div
+                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
+                                class=" object-cover rounded " width="100px">
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
+                        </div>
+                        <div
+                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
+                                class=" object-cover rounded " width="100px">
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
+                        </div>
+                        <div
+                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
+                                class=" object-cover rounded " width="100px">
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
+                        </div>
+                        <div
+                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
+                                class=" object-cover rounded " width="100px">
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
+                        </div>
+                        <div
+                            class="bg-[#FDE5C1] rounded shadow p-4 flex items-center justify-center flex-col w-[200px] h-[200px] cursor-pointer">
+                            <img src={{ url('/img/kategori/alatTidur.png') }} alt="Produk"
+                                class=" object-cover rounded " width="100px">
+                            <h3 class="font-semibold mt-2">Kasur Bayi</h3>
+                        </div>
+
+
                         <!-- Tambahkan produk lainnya di sini -->
                     </div>
                 </div>
@@ -175,6 +171,5 @@
 
             </div>
         </section>
-
     </body>
 </x-layout>
