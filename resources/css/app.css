@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @tailwind utilities;
 @import 'flowbite';
+@php use Carbon\Carbon; @endphp
+
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
