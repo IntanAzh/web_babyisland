@@ -53,7 +53,7 @@
 
                         <div class="flex justify-between items-center p-4 border-t text-sm text-gray-500">
                             <span class="cursor-pointer hover:text-black">✓ MARK ALL AS READ</span>
-                            <a href="{{ route('admin.notifications') }}"
+                            <a href="{{ route('admin.notification') }}"
                                 class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500 text-sm">
                                 VIEW ALL NOTIFICATION
                             </a>
@@ -75,7 +75,7 @@
                     <div x-show="isOpen" @click.away="isOpen = false" x-transition
                         class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-4 py-3 text-sm text-gray-900 border-b font-semibold">Admin</div>
-                        <a href="#"
+                        <a href="{{ route('admin.changepass') }}"
                             class="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Change Password
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"

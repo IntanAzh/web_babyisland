@@ -99,9 +99,17 @@ Route::get('/admin/tambahproduk', function () {
     return view('admin.tambahproduk', ['title' => 'Tambah Produk']);
 })->name('admin.tambahproduk');
 
-Route::get('/admin/notifications', function(){
-    return view('admin.notifications', ['title' =>' Notification']);
-})->name('admin.notifications');
+Route::get('/admin/notification', function () {
+    return view('admin.notification', ['title' => ' Notification']);
+})->name('admin.notification');
+
+Route::get('/admin/changepass', function () {
+    return view('admin.changepass', ['title' => ' Change Password']);
+})->name('admin.changepass');
+
+Route::get('/admin/payment-proof', function () {
+    return view('admin.payment-proof', ['title' => 'Bukti Pembayaran Customer']);
+})->name('admin.payment-proof');
 
 
 

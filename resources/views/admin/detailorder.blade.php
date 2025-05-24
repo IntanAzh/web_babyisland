@@ -114,7 +114,7 @@
                             {{ $order->payment_card_last_four }})</p>
                         <p>Status: {{ $order->payment_status }}</p>
                         <p>Bukti Pembayaran: {{ $order->payment_proof_time }}</p>
-                        <a href="#" class="text-blue-600 underline text-sm">[Lihat bukti pembayaran]</a>
+                        <a href="{{ route('admin.payment-proof') }}" class="text-blue-600 underline text-sm">[Lihat bukti pembayaran]</a>
                     </div>
 
                     <div class="bg-white border rounded-xl p-6">
