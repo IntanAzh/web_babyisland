@@ -6,7 +6,7 @@
         <main class="mx-auto p-4 mt-15">
             <section class="category-container flex gap-7">
 
-              <div class="list p-4 bg-[#FEF8EF] flex-1 min-h-screen ">
+                <div class="list p-4 bg-[#FEF8EF] flex-1 min-h-screen ">
                     <h2 class="text-xl font-semibold mb-4">Semua Kategori</h2>
                     <div class="categor">
                         <ul class="flex flex-col gap-3">
@@ -14,10 +14,16 @@
                                 <h3 class="font-semibold cursor-pointer">Perlengkapan Perjalanan</h3>
                             </li>
                             <li>
-                                <a href="{{ route('category_mainan') }}"class="text-orange-400 font-semibold hover:underline"><h3>Mainan & Edukasi</h3></a>
+                                <a
+                                    href="{{ route('category_mainan') }}"class="text-orange-400 font-semibold hover:underline">
+                                    <h3>Mainan & Edukasi</h3>
+                                </a>
                             </li>
                             <li>
-                                <a href="{{ route('category_tidur') }}"class="text-orange-400 font-semibold hover:underline"><h3>Tidur & Kenyamanan</h3></a>
+                                <a
+                                    href="{{ route('category_tidur') }}"class="text-orange-400 font-semibold hover:underline">
+                                    <h3>Tidur & Kenyamanan</h3>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -135,34 +141,39 @@
             </div>
         </main>
 
-        <section class="bg-[#FBD7A2] mt-8 p-4">
-            <div class="unggulan flex items-center justify-center lg:gap-[100px] md:gap-10 gap-5 ">
-
-                <div class="box flex flex-col items-center justify-center">
-                    <div
-                        class="gambar bg-[#ffffff] p-4 rounded-full md:w-[150px] md:h-[150px] h-[100px] w-[100px] flex justify-center items-center ">
-                        <img src={{ url('/img/choose/bling.png') }} alt=" bling" class="md:w-[150px] w-[100px]">
+        <section class="bg-[#FBD7A2] py-10">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-wrap justify-center gap-10 md:gap-10">
+                    <!-- Item -->
+                    <div class="flex flex-col items-center text-center max-w-[160px]">
+                        <div
+                            class="bg-white rounded-full w-[100px] h-[100px] md:w-[100px] md:h-[100px] flex items-center justify-center shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                            <img src="{{ url('/img/choose/bling.png') }}" alt="Bersih & Steril"
+                                class="w-15 md:w-15">
+                        </div>
+                        <p class="font-semibold mt-4 text-sm md:text-base text-black">Bersih & Steril</p>
                     </div>
 
-                    <h4 class="font-bold mt-3 text-[12px] text-md md:text-xl">Bersih & Steril</h4>
-                </div>
-                <div class="box flex flex-col items-center justify-center">
-                    <div
-                        class="gambar bg-[#ffffff] p-4 rounded-full md:w-[150px] md:h-[150px] h-[100px] w-[100px] flex justify-center items-center ">
-                        <img src={{ url('/img/choose/dolar.png') }} alt=" bling" class="md:w-[150px] w-[100px]">
+                    <!-- Item -->
+                    <div class="flex flex-col items-center text-center max-w-[160px]">
+                        <div
+                            class="bg-white rounded-full w-[80px] h-[80px] md:w-[100px] md:h-[100px] flex items-center justify-center shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                            <img src="{{ url('/img/choose/dolar.png') }}" alt="Harga Terjangkau"
+                                class="w-15 md:w-15">
+                        </div>
+                        <p class="font-semibold mt-4 text-sm md:text-base text-black leading-tight">Harga Terjangkau
+                        </p>
                     </div>
 
-                    <h4 class="font-bold mt-3 text-[12px] text-md md:text-xl">Harga Terjangkau</h4>
-                </div>
-                <div class="box flex flex-col items-center justify-center">
-                    <div
-                        class="gambar bg-[#ffffff] p-4 rounded-full md:w-[150px] md:h-[150px] h-[100px] w-[100px] flex justify-center items-center ">
-                        <img src={{ url('/img/choose/cs.png') }} alt=" bling" class="md:w-[150px] w-[100px]">
+                    <!-- Item -->
+                    <div class="flex flex-col items-center text-center max-w-[160px]">
+                        <div
+                            class="bg-white rounded-full w-[80px] h-[80px] md:w-[100px] md:h-[100px] flex items-center justify-center shadow-md hover:scale-105 transition duration-300 ease-in-out">
+                            <img src="{{ url('/img/choose/cs.png') }}" alt="CS Responsif" class="w-15 md:w-15">
+                        </div>
+                        <p class="font-semibold mt-4 text-sm md:text-base text-black">CS Responsif</p>
                     </div>
-
-                    <h4 class="font-bold mt-3 text-[12px] md:text-xl">Customer Service Responsif</h4>
                 </div>
-
             </div>
         </section>
     </body>

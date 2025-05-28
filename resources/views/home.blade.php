@@ -2,18 +2,34 @@
     <x-slot:title>{{ $title }}</x-slot:title>
 
     <body class="bg-gray-100 ">
-        <!-- Header -->
-        <header class="bg-white py-10 text-center bg-center bg-cover h-[608px] relative z-10 mt-10"
+        <header class="bg-white py-10 text-center bg-center bg-cover h-[680px] relative z-10 mt-10"
             style="background-image: url(/img/bgBaby.png)">
-            <div class="hero-text md:w-[50%] w-[90%] absolute right-9 top-3">
 
-                <h1 class="text-[#F9BD64] text-center text-lg md:text-xl lg:text-3xl font-bold mt-10">Baby Island <br>
-                    Solusi Praktis Untuk Kebutuhan Si Kecil
+            <!-- Overlay agar teks lebih terbaca -->
+            <div class="absolute inset-0 bg-white/40 z-0"></div>
+
+            <!-- Kontainer teks -->
+            <div class="hero-text md:w-[60%] w-[90%] absolute right-9 top-6 z-10">
+                <h1 class="text-[#F9BD64] text-center text-3xl md:text-4xl lg:text-5xl font-extrabold leading-snug">
+                    Baby Island <br>
+                    <span class="text-[#F9BD64] font-extrabold">
+                        Solusi Praktis untuk Kebutuhan Si Kecil!
+                    </span>
                 </h1>
-                <p class="mt-10 text-[#F9BD64] text-justify">Kenapa beli kalau bisa sewa? Stroller, car seat, box bayi,
-                    hingga mainan edukatif, semua ada di sini! Hemat, praktis, dan ramah lingkungan. Yuk, sewa sekarang
-                    dan buat momen bersama si kecil lebih nyaman!</p>
+
+                <div
+                    class="mt-5 text-[#F9BD64]  text-md font-bold md:text-base leading-relaxed text-justify  lg:ml-[100px]">
+                    <p>Kenapa beli kalau bisa sewa?
+
+                        <strong>Stroller, car seat, box bayi, hingga mainan edukatif</strong>, semua ada di sini!
+
+
+                        Hemat, praktis, dan ramah lingkungan. Yuk, sewa sekarang dan buat momen bersama si kecil lebih
+                        nyaman!
+                    </p>
+                </div>
             </div>
+
         </header>
 
         <!-- Kategori Rental -->

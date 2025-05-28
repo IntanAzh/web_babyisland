@@ -111,6 +111,9 @@ Route::get('/admin/payment-proof', function () {
     return view('admin.payment-proof', ['title' => 'Bukti Pembayaran Customer']);
 })->name('admin.payment-proof');
 
+Route::get('/admin/login', function () {
+    return view('admin.login', ['title' => 'Login Admin']);
+})->name('admin.login');
 
 
 //Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
