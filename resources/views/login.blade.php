@@ -30,6 +30,10 @@
                     Don’t have an account?
                     <a href="{{ route('register') }}"class="text-orange-400 font-semibold hover:underline">Register</a>
                 </p>
+                 <p class="text-center text-sm text-gray-500 mt-2">
+                    Login to Admin?
+                    <a href="{{ route('admin.login') }}"class="text-orange-400 font-semibold hover:underline">Admin</a>
+                </p>
             </div>
         </div>
     </body>
