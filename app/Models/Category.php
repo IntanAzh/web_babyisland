@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class kategori extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -15,12 +15,12 @@ class kategori extends Model
      * @var string
      */
     protected $fillable = [
-        'nama', 
-        'gambar'
+        'name',
+        'image'
     ];
 
-    public function produk()
+    public function product()
     {
-        return $this->hasMany(Produk::class);
+        return $this->hasMany(Product::class);
     }
 }

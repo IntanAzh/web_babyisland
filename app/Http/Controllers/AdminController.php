@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
-use App\Models\Produk;
-use App\Models\Kategori;
-use App\Models\Pemesanan;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Transaction;
 use App\Models\Transaksi;
 
 class AdminController extends Controller
@@ -17,18 +18,26 @@ class AdminController extends Controller
 
     public function dashboard()
     {
-        $stats = [
+        $info = [
             'total_users' => User::where('role', 'user')->count(),
-            'total_produk' => Produk::count(),
-            'total_pemesanan' => Pemesanan::count(),
-            'total_transaksi' => Transaksi::where('status', 'success')->count(),
-            'recent_orders' => Pemesanan::with('user', 'produk')
+            'total_products' => Product::count(),
+            'total_orders' => Order::count(),
+            'total_transactions' => Order::where('status', 'complete')->sum('total_price'),
+            'recent_orders' => Order::with('user', 'product')
                 ->latest()
                 ->limit(5)
-                ->get()
+                ->get(),
+            'title' => 'Register'
         ];
 
-        return view('admin.dashboard', compact('stats'));
+        return view('admin.dashboard', compact('info'));
+    }
+
+    public function products()
+    {
+        $products = Product::with('category')->paginate(10);
+        $title = 'Product';
+        return view('admin.product.index', compact('products', 'title'));
     }
 
     public function users()
@@ -42,19 +51,13 @@ class AdminController extends Controller
         $transactions = Transaksi::with('pemesanan')
             ->latest()
             ->paginate(10);
-            
-        return view('admin.transactions', compact('transactions'));
-    }
 
-    public function products()
-    {
-        $products = Produk::with('kategori')->paginate(10);
-        return view('admin.products', compact('products'));
+        return view('admin.transactions', compact('transactions'));
     }
 
     public function categories()
     {
-        $categories = Kategori::paginate(10);
+        $categories = Category::paginate(10);
         return view('admin.categories', compact('categories'));
     }
 

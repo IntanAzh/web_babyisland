@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Produk;
-use App\Models\Pemesanan;
 use Illuminate\Http\Request;
 
-class PemesananController extends Controller
+class OrderController extends Controller
 {
     public function __construct()
     {
@@ -15,11 +15,19 @@ class PemesananController extends Controller
 
     public function index()
     {
-        $pemesanan = Pemesanan::where('user_id', auth()->id())
-            ->with(['produk', 'transaksi'])
-            ->latest()
-            ->paginate(10);
-        return view('pemesanan.index', compact('pemesanan'));
+        if (auth()->user()->isAdmin()) {
+            $orders = Order::with(['product', 'transaction'])
+                ->latest()
+                ->paginate(10);
+        } else {
+            $orders = Order::where('user_id', auth()->id())
+                ->with(['product', 'transaction'])
+                ->latest()
+                ->paginate(10);
+        }
+        $title = 'Orders';
+
+        return view('admin.order.index', compact('orders', 'title'));
     }
 
     public function create(Produk $produk)
@@ -59,10 +67,11 @@ class PemesananController extends Controller
             ->with('success', 'Pemesanan berhasil dibuat. Silakan lakukan pembayaran.');
     }
 
-    public function show(Pemesanan $pemesanan)
+    public function show(Order $order)
     {
-        $this->authorize('view', $pemesanan);
-        return view('pemesanan.show', compact('pemesanan'));
+        // $this->authorize('view', $order);
+        $title = 'Detail Orders';
+        return view('admin.order.show', compact('order','title'));
     }
 
     public function cancel(Pemesanan $pemesanan)
@@ -74,7 +83,7 @@ class PemesananController extends Controller
         }
 
         $pemesanan->update(['status' => 'cancelled']);
-        
+
         // Kembalikan stok produk
         $pemesanan->produk->increment('stok', $pemesanan->jumlah);
 

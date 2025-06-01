@@ -10,10 +10,10 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 
-        'produk_id', 
-        'rating', 
-        'komentar'
+        'user_id',
+        'product_id',
+        'rating',
+        'comment'
     ];
 
     public function user()
@@ -21,9 +21,9 @@ class Review extends Model
         return $this->belongsTo(User::class); // Diubah dari Users ke User
     }
 
-    public function produk()
+    public function product()
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsTo(Product::class);
     }
 }
 

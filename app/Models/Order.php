@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Pemesanan extends Model
+class Order extends Model
 {
     use HasFactory;
 
@@ -15,13 +15,13 @@ class Pemesanan extends Model
      * @var string
      */
     protected $fillable = [
-        'user_id', 
-        'produk_id', 
-        'qty', 
-        'tanggal_mulai',
-        'tanggal_berakhir', 
-        'total_harga', 
-        'alamat', 
+        'user_id',
+        'product_id',
+        'qty',
+        'start_date',
+        'end_date',
+        'total_price',
+        'address',
         'status'
     ];
 
@@ -30,13 +30,13 @@ class Pemesanan extends Model
         return $this->belongsTo(User::class); // Diubah dari Users ke User
     }
 
-    public function produk()
+    public function product()
     {
-        return $this->belongsTo(Produk::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function transaksi()
+    public function transaction()
     {
-        return $this->hasOne(Transaksi::class);
+        return $this->hasOne(Transaction::class);
     }
 }

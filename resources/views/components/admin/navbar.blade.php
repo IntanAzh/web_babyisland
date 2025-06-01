@@ -9,16 +9,16 @@
             <!-- Right side -->
             <div class="flex items-center gap-4">
                 <!-- Search Icon -->
-                <button type="button" class="text-gray-600 hover:text-gray-800 focus:outline-none">
+                {{-- <button type="button" class="text-gray-600 hover:text-gray-800 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
                         stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8" />
                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
-                </button>
+                </button> --}}
 
                 <!-- Notification -->
-                <div class="relative" x-data="{ notifOpen: false }">
+                {{-- <div class="relative" x-data="{ notifOpen: false }">
                     <button @click="notifOpen = !notifOpen"
                         class="text-gray-600 hover:text-gray-800 focus:outline-none relative">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
@@ -53,13 +53,13 @@
 
                         <div class="flex justify-between items-center p-4 border-t text-sm text-gray-500">
                             <span class="cursor-pointer hover:text-black">✓ MARK ALL AS READ</span>
-                            <a href="{{ route('admin.notification') }}"
+                            {{-- <a href="{{ route('admin.notification') }}"
                                 class="bg-yellow-400 text-white px-3 py-1 rounded hover:bg-yellow-500 text-sm">
                                 VIEW ALL NOTIFICATION
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Admin Dropdown -->
                 <div class="relative" x-data="{ isOpen: false }">
@@ -75,22 +75,26 @@
                     <div x-show="isOpen" @click.away="isOpen = false" x-transition
                         class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div class="px-4 py-3 text-sm text-gray-900 border-b font-semibold">Admin</div>
-                        <a href="{{ route('admin.changepass') }}"
+                        {{-- <a href="{{ route('admin.changepass') }}"
                             class="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Change Password
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
                                 viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M9 5l7 7-7 7" />
                             </svg>
-                        </a>
-                        <a href="#"
-                            class="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            Log Out
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M17 16l4-4m0 0l-4-4m4 4H7" />
-                            </svg>
-                        </a>
+                        </a> --}}
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button href="#"
+                                class="flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                Log Out
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 16l4-4m0 0l-4-4m4 4H7" />
+                                </svg>
+                            </button>
+                        </form>
+
                     </div>
                 </div>
             </div>

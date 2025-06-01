@@ -16,7 +16,7 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-6">
                         <x-navlink href="/" :active="request()->is('/')">Home</x-navlink>
-                        <x-navlink href="/howtoder" :active="request()->is('howtoder')">How To Order</x-navlink>
+                        <x-navlink href="/how-to-order" :active="request()->is('how-to-order')">How To Order</x-navlink>
                         <x-navlink href="/category" :active="request()->is('category')">Category</x-navlink>
                         <x-navlink href="/login" :active="request()->is('login')">Login</x-navlink>
                     </div>
@@ -90,8 +90,15 @@
                             id="user-menu-item-0">Your Profile</a>
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
                             id="user-menu-item-1">Settings</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                            id="user-menu-item-2">Sign out</a>
+                        <div class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                            id="user-menu-item-2">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit">
+                                    Sign out
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

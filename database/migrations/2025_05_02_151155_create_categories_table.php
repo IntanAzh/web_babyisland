@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::create('kategori', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 50);
-            $table->string('gambar')->nullable();
+            $table->string('name', 50);
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('kategori');
+        Schema::dropIfExists('categories');
     }
 };

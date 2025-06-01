@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Produk extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -15,13 +15,14 @@ class Produk extends Model
      * @var string
      */
     protected $fillable = [
-        'user_id', 
-        'kategori_id', 
-        'nama', 
-        'deskripsi', 
-        'harga_perhari', 
-        'stok', 
-        'gambar'
+        'name',
+        'description',
+        'category_id',
+        "sku",
+        "brand",
+        'price',
+        'stock',
+        'image'
     ];
 
     public function user()
@@ -29,14 +30,14 @@ class Produk extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function kategori()
+    public function category()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function pemesanan()
+    public function order()
     {
-        return $this->hasMany(Pemesanan::class);
+        return $this->hasMany(Order::class);
     }
 
     public function review()

@@ -17,18 +17,20 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|max:255',
             'password' => 'required'
         ]);
+
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return $this->redirectBasedOnRole();
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back();
+        // ->withErrors([
+        //     'email' => 'Email atau password salah.',
+        // ]);
     }
 
     public function showRegisterForm()
@@ -39,17 +41,17 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:255',
+            'username' => 'required|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'no_hp' => 'required|numeric'
+            'password' => 'required|min:6',
+            'phonenumber' => 'required|numeric'
         ]);
 
         $user = User::create([
-            'name' => $validated['name'],
+            'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'no_hp' => $validated['no_hp'],
+            'phonenumber' => $validated['phonenumber'],
             'role' => 'user'
         ]);
 
@@ -70,7 +72,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect('/');
     }
 }
