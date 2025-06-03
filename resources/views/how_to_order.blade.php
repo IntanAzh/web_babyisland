@@ -1,12 +1,12 @@
 <x-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
     <div class="container mx-auto mt-15 w-[100%]">
-        <section class="text-center w-[100%] bg-[#FEF8EF] p-4">
+        <section class="text-center w-[100%] bg-[#FEF8EF] p-16">
             <h2 class="text-2xl font-bold mb-8">Cara Sewa</h2>
 
-            <div class="flex flex-wrap items-center  gap-6 justify-items-center w-[100%]">
+            <div class="flex flex-wrap items-center gap-6 justify-items-center w-[100%]">
                 <!-- Step 1 -->
-                <div class="upper flex flex-wrap items-center justify-evenly w-[100%] gap-5">
+                <div class="upper flex flex-wrap items-center justify-center w-[100%] gap-6 md:gap-40">
 
                     <div class="relative bg-white rounded-xl shadow p-6 w-64">
                         <span
@@ -43,17 +43,26 @@
                             class="absolute -top-3 left-4 bg-yellow-400 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">Step
                             3</span>
                         <div class="flex items-center gap-4 mt-2">
-                            <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2m-4-1l5-5m0 0l-5-5m5 5H9" />
+                            <svg class="w-8 h-8 text-gray-600" viewBox="0 0 90 70" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <rect opacity="0.8" width="89.3251" height="70" fill="url(#pattern0_90_59)" />
+                                <defs>
+                                    <pattern id="pattern0_90_59" patternContentUnits="objectBoundingBox" width="1"
+                                        height="1">
+                                        <use xlink:href="#image0_90_59"
+                                            transform="matrix(0.00540175 0 0 0.00689303 -0.480769 0.000255624)" />
+                                    </pattern>
+                                    <image id="image0_90_59" width="348" height="145" preserveAspectRatio="none"
+                                        xlink:href="data:image/png;base64,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" />
+                                </defs>
                             </svg>
+
                             <p class="text-gray-800 font-medium">Pembayaran</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="below flex flex-wrap items-center justify-evenly w-[100%] gap-5">
+                <div class="below flex flex-wrap items-center justify-center w-[100%] gap-6 md:gap-40 md:mt-10">
 
                     <!-- Step 4 -->
                     <div class="relative bg-white rounded-xl shadow p-6 w-64">
@@ -75,9 +84,11 @@
                             class="absolute -top-3 left-4 bg-yellow-400 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">Step
                             5</span>
                         <div class="flex items-center gap-4 mt-2">
-                            <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 17l-4-4h8l-4 4z" />
+                            <svg class="w-8 h-8 text-gray-600" viewBox="0 0 60 60" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M18.333 47.5L29.9997 38.6041L41.6663 47.5L37.2913 33.0625L48.958 24.75H34.6663L29.9997 9.58331L25.333 24.75H11.0413L22.708 33.0625L18.333 47.5ZM29.9997 59.1666C25.965 59.1666 22.1733 58.401 18.6247 56.8698C15.0761 55.3385 11.9893 53.2604 9.36426 50.6354C6.73926 48.0104 4.66113 44.9236 3.12988 41.375C1.59863 37.8264 0.833008 34.0347 0.833008 30C0.833008 25.9653 1.59863 22.1736 3.12988 18.625C4.66113 15.0764 6.73926 11.9896 9.36426 9.36456C11.9893 6.73956 15.0761 4.66144 18.6247 3.13019C22.1733 1.59894 25.965 0.833313 29.9997 0.833313C34.0344 0.833313 37.8261 1.59894 41.3747 3.13019C44.9233 4.66144 48.0101 6.73956 50.6351 9.36456C53.2601 11.9896 55.3382 15.0764 56.8695 18.625C58.4007 22.1736 59.1663 25.9653 59.1663 30C59.1663 34.0347 58.4007 37.8264 56.8695 41.375C55.3382 44.9236 53.2601 48.0104 50.6351 50.6354C48.0101 53.2604 44.9233 55.3385 41.3747 56.8698C37.8261 58.401 34.0344 59.1666 29.9997 59.1666ZM29.9997 53.3333C36.5136 53.3333 42.0309 51.0729 46.5518 46.5521C51.0726 42.0312 53.333 36.5139 53.333 30C53.333 23.4861 51.0726 17.9687 46.5518 13.4479C42.0309 8.92706 36.5136 6.66665 29.9997 6.66665C23.4858 6.66665 17.9684 8.92706 13.4476 13.4479C8.92676 17.9687 6.66634 23.4861 6.66634 30C6.66634 36.5139 8.92676 42.0312 13.4476 46.5521C17.9684 51.0729 23.4858 53.3333 29.9997 53.3333Z"
+                                    fill="#1D1B20" />
                             </svg>
                             <p class="text-gray-800 font-medium">Ulasan</p>
                         </div>
@@ -86,62 +97,64 @@
             </div>
         </section>
 
-        <section class="mt-8 bg-[#FDE5C1] p-5">
-            <h2 class="text-xl font-semibold">Syarat & Ketentuan</h2>
-            <ul class="list-decimal mt-4 p-5">
-                <li>
-                    <p class="font-bold">Umum</h3>
-                    <ul class="list-disc list-inside">
-                        <li>Dengan menggunakan layanan Baby Island, pelanggan dianggap telah membaca dan menyetujui
-                            syarat & ketentuan ini.</li>
-                        <li>Baby Island berhak mengubah ketentuan tanpa pemberitahuan sebelumnya.</li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 class="font-bold">Penyewaan & Penggunaan</h3>
-                    <ul class="list-disc list-inside">
-                        <li>Pelanggan harus memiliki tanggal sewa dengan benar.</li>
-                        <li>Produk yang disewa hanya untuk penggunaan pribadi, bukan untuk diperjualbelikan atau
-                            disewakan kembali.</li>
-                        <li>Barang harus dikembalikan dalam kondisi yang sama seperti saat diterima.</li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 class="font-bold">Pembayaran</h3>
-                    <ul class="list-disc list-inside">
-                        <li>Pembayaran dilakukan sebelum barang dikirim atau diambil.</li>
-                        <li>Bukti pembayaran harus disimpan untuk verifikasi pesanan.</li>
-                        <li>Tidak ada pengembalian dana setelah transaksi selesai, kecuali dalam kondisi tertentu
-                            yang disetujui Baby Island.</li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 class="font-bold">Pengiriman & Pengembalian</h3>
-                    <ul class="list-disc list-inside">
-                        <li>Pelanggan bertanggung jawab atas biaya pengiriman dan pengembalian (jika berlaku).</li>
-                        <li>Keterlambatan pengembalian akan dikenakan biaya tambahan sesuai kebijakan.</li>
-                        <li>Jika produk mengalami kerusakan atau hilang, pelanggan wajib mengganti sesuai nilai yang
-                            ditetapkan.</li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 class="font-bold">Pembatalan & Perubahan Pesanan</h3>
-                    <ul class="list-disc list-inside">
-                        <li>Pembatalan dapat dilakukan sebelum pesanan dikonfirmasi, dan dana akan dikembalikan
-                            dengan potongan biaya administrasi.</li>
-                        <li>Perubahan tanggal sewa dapat dilakukan dengan menghubungi layanan pelanggan terlebih
-                            dahulu.</li>
-                    </ul>
-                </li>
-                <li>
-                    <h3 class="font-bold">Tanggung Jawab Pelanggan</h3>
-                    <ul class="list-disc list-inside">
-                        <li>Pelanggan bertanggung jawab penuh terhadap produk selama masa sewa.</li>
-                        <li>Baby Island tidak bertanggung jawab atas kecelakaan atau cedera yang terjadi akibat
-                            penggunaan produk yang disewa.</li>
-                    </ul>
-                </li>
-            </ul>
+        <section class="bg-[#FDE5C1] p-6 sm:p-8 md:p-10 mx-auto">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-2xl sm:text-3xl font-semibold text-center mb-4">Syarat & Ketentuan</h2>
+                <ul class="list-decimal mt-4 p-3 sm:p-4 md:p-5 text-sm sm:text-base md:text-lg space-y-4">
+                    <li>
+                        <p class="font-bold text-base sm:text-lg md:text-xl">Umum</p>
+                        <ul class="list-disc list-inside mt-1 ml-2">
+                            <li>Dengan menggunakan layanan Baby Island, pelanggan dianggap telah membaca dan menyetujui
+                                syarat & ketentuan ini.</li>
+                            <li>Baby Island berhak mengubah ketentuan tanpa pemberitahuan sebelumnya.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="font-bold text-base sm:text-lg md:text-xl">Penyewaan & Penggunaan</p>
+                        <ul class="list-disc list-inside mt-1 ml-2">
+                            <li>Pelanggan harus memiliki tanggal sewa dengan benar.</li>
+                            <li>Produk yang disewa hanya untuk penggunaan pribadi, bukan untuk diperjualbelikan atau
+                                disewakan kembali.</li>
+                            <li>Barang harus dikembalikan dalam kondisi yang sama seperti saat diterima.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="font-bold text-base sm:text-lg md:text-xl">Pembayaran</p>
+                        <ul class="list-disc list-inside mt-1 ml-2">
+                            <li>Pembayaran dilakukan sebelum barang dikirim atau diambil.</li>
+                            <li>Bukti pembayaran harus disimpan untuk verifikasi pesanan.</li>
+                            <li>Tidak ada pengembalian dana setelah transaksi selesai, kecuali dalam kondisi tertentu
+                                yang disetujui Baby Island.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="font-bold text-base sm:text-lg md:text-xl">Pengiriman & Pengembalian</p>
+                        <ul class="list-disc list-inside mt-1 ml-2">
+                            <li>Pelanggan bertanggung jawab atas biaya pengiriman dan pengembalian (jika berlaku).</li>
+                            <li>Keterlambatan pengembalian akan dikenakan biaya tambahan sesuai kebijakan.</li>
+                            <li>Jika produk mengalami kerusakan atau hilang, pelanggan wajib mengganti sesuai nilai yang
+                                ditetapkan.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="font-bold text-base sm:text-lg md:text-xl">Pembatalan & Perubahan Pesanan</p>
+                        <ul class="list-disc list-inside mt-1 ml-2">
+                            <li>Pembatalan dapat dilakukan sebelum pesanan dikonfirmasi, dan dana akan dikembalikan
+                                dengan potongan biaya administrasi.</li>
+                            <li>Perubahan tanggal sewa dapat dilakukan dengan menghubungi layanan pelanggan terlebih
+                                dahulu.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p class="font-bold text-base sm:text-lg md:text-xl">Tanggung Jawab Pelanggan</p>
+                        <ul class="list-disc list-inside mt-1 ml-2">
+                            <li>Pelanggan bertanggung jawab penuh terhadap produk selama masa sewa.</li>
+                            <li>Baby Island tidak bertanggung jawab atas kecelakaan atau cedera yang terjadi akibat
+                                penggunaan produk yang disewa.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </section>
     </div>
 </x-layout>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaksi;
-use App\Models\Pemesanan;
+use App\Models\Transaction;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,77 +14,72 @@ class TransaksiController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    /**
+     * Display form for uploading payment proof (via POST)
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showUploadForm(Request $request)
     {
-        $transaksi = Transaksi::where('user_id', auth()->id())
-            ->with('pemesanan')
-            ->latest()
-            ->paginate(10);
-        return view('transaksi.index', compact('transaksi'));
-    }
-
-    public function create(Pemesanan $pemesanan)
-    {
-        $this->authorize('create', [Transaksi::class, $pemesanan]);
-        return view('transaksi.create', compact('pemesanan'));
-    }
-
-    public function store(Request $request, Pemesanan $pemesanan)
-    {
-        $this->authorize('create', [Transaksi::class, $pemesanan]);
-
+        // Validate the incoming request
         $validated = $request->validate([
-            'metode_pembayaran' => 'required|in:transfer_bank,e-wallet',
+            'order_id' => 'required|exists:orders,id',
+            'invoice' => 'required|string'
+        ]);
+        
+        $order = Order::with(['product', 'transaction'])->findOrFail($validated['order_id']);
+        
+        // Check if order belongs to the current user if authenticated
+        if (auth()->id() && $order->user_id != auth()->id()) {
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke pesanan ini.');
+        }
+        
+        // Check if invoice matches the transaction
+        if ($order->transaction->invoice != $validated['invoice']) {
+            return redirect()->route('home')->with('error', 'Detail transaksi tidak valid.');
+        }
+        
+        $title = 'Unggah Bukti Pembayaran';
+        
+        return view('unggah_bukti', compact('order', 'title'));
+    }
+
+    /**
+     * Process payment proof upload
+     */
+    public function uploadPaymentProof(Request $request)
+    {
+        $validated = $request->validate([
+            'order_id' => 'required|exists:orders,id',
             'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        $bukti_pembayaran = $request->file('bukti_pembayaran')
-            ->store('bukti_pembayaran', 'public');
+        $order = Order::with('transaction')->findOrFail($validated['order_id']);
 
-        $transaksi = Transaksi::create([
-            'user_id' => auth()->id(),
-            'pemesanan_id' => $pemesanan->id,
-            'total_pembayaran' => $pemesanan->total_harga,
-            'metode_pembayaran' => $validated['metode_pembayaran'],
-            'bukti_pembayaran' => $bukti_pembayaran,
-            'status' => 'pending'
+        // Check if order belongs to the current user
+        if (auth()->id() && $order->user_id != auth()->id()) {
+            return back()->with('error', 'Anda tidak memiliki akses ke pesanan ini');
+        }
+
+        // Upload and store the image
+        $imagePath = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+
+        // Update transaction with image path
+        $order->transaction->update([
+            'image' => $imagePath
         ]);
 
-        return redirect()->route('transaksi.show', $transaksi)
-            ->with('success', 'Bukti pembayaran berhasil diunggah dan sedang diverifikasi');
-    }
-
-    public function show(Transaksi $transaksi)
-    {
-        $this->authorize('view', $transaksi);
-        return view('transaksi.show', compact('transaksi'));
-    }
-
-    public function confirm(Request $request, Transaksi $transaksi)
-    {
-        $this->authorize('confirm', $transaksi);
-
-        $transaksi->update(['status' => 'success']);
-        $transaksi->pemesanan->update(['status' => 'processing']);
-
-        return redirect()->route('transaksi.show', $transaksi)
-            ->with('success', 'Pembayaran berhasil dikonfirmasi');
-    }
-
-    public function reject(Request $request, Transaksi $transaksi)
-    {
-        $this->authorize('reject', $transaksi);
-
-        $transaksi->update([
-            'status' => 'failed',
-            'keterangan' => $request->input('keterangan', 'Pembayaran ditolak')
+        // Store order data in session for the completion page
+        session([
+            'completed_order' => [
+                'order_id' => $order->id,
+                'invoice' => $order->transaction->invoice,
+                'product_name' => $order->product->name,
+                'total' => $order->total_price
+            ]
         ]);
 
-        // Kembalikan stok produk
-        $transaksi->pemesanan->produk->increment('stok', $transaksi->pemesanan->jumlah);
-        $transaksi->pemesanan->update(['status' => 'cancelled']);
-
-        return redirect()->route('transaksi.show', $transaksi)
-            ->with('success', 'Pembayaran berhasil ditolak');
+        return redirect()->route('selesai.unggah')->with('success', 'Bukti pembayaran berhasil diunggah. Pesanan Anda sedang diproses.');
     }
 }

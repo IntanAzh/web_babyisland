@@ -16,7 +16,8 @@ class Transaction extends Model
         'owner_name',
         'account_number',
         'invoice',
-        'status'
+        'status',
+        'image'
     ];
 
     public function order()

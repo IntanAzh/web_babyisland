@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->date('end_date');
             $table->decimal('total_price', 12, 2);
             $table->text('address');
-            $table->enum('status', ['pending', 'process', 'sent', 'complete', 'cancel'])->default('pending');
+            $table->enum('status', ['finished','pending','confirmed','process','sent','complete','cancel','delivered'])->default('pending');
             $table->timestamps();
         });
     }

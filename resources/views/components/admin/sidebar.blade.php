@@ -9,6 +9,7 @@
         <x-admin.navlink href="{{ route('admin.dashboard') }}" :active="request()->is('admin/dashboard')">Dashboard</x-admin.navlink>
         <x-admin.navlink href="{{ route('product.index') }}" :active="request()->is('admin/product*')">All Products</x-admin.navlink>
         <x-admin.navlink href="{{ route('order.index') }}" :active="request()->is('admin/order*')">Order List</x-admin.navlink>
+        <x-admin.navlink href="{{ route('admin.kategori.index') }}" :active="request()->is('admin/kategori*')">Categories List</x-admin.navlink>
         {{-- <a href="#" class="block text-center py-3 rounded-full bg-yellow-400 text-gray-800 font-bold shadow">
             Dashboard </a>
         <a href="" class="block text-center py-2 text-gray-800 font-semibold hover:text-orange-500">

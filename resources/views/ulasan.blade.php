@@ -19,8 +19,18 @@
                         <input type="hidden" name="rating" id="rating" value="0">
                     </div>
 
-                    <textarea name="ulasan" rows="4" placeholder="Tulis ulasan anda disini..."
+                    <textarea name="ulasan" id="ulasan" rows="4" placeholder="Tulis ulasan anda disini..."
                         class="w-full p-3 rounded border border-gray-200 focus:ring-yellow-400 focus:outline-none"></textarea>
+
+                    <!-- Add order_id field if available in the URL -->
+                    @if(request()->has('order_id'))
+                        <input type="hidden" name="order_id" id="order_id" value="{{ request('order_id') }}">
+                    @endif
+
+                    <!-- Add product_id field if available in the URL -->
+                    @if(request()->has('product_id'))
+                        <input type="hidden" name="product_id" id="product_id" value="{{ request('product_id') }}">
+                    @endif
 
                     <button type="submit"
                         class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-6 rounded w-full">
@@ -79,14 +89,59 @@
 
             // Handle form submission
             document.getElementById('reviewForm').addEventListener('submit', function(e) {
-                e.preventDefault(); // prevent actual form submit
-                document.getElementById('popup').classList.remove('hidden');
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData();
+                formData.append('rating', document.getElementById('rating').value);
+                formData.append('ulasan', document.getElementById('ulasan').value);
+                
+                // Add order_id if it exists
+                const orderIdInput = document.getElementById('order_id');
+                if (orderIdInput) {
+                    formData.append('order_id', orderIdInput.value);
+                }
+                
+                // Add product_id if it exists
+                const productIdInput = document.getElementById('product_id');
+                if (productIdInput) {
+                    formData.append('product_id', productIdInput.value);
+                }
+                
+                // Add CSRF token
+                formData.append('_token', '{{ csrf_token() }}');
+                
+                // Send AJAX request to submit review
+                fetch('{{ route("review.submit") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success popup
+                        document.getElementById('popup').classList.remove('hidden');
+                    } else {
+                        alert('Terjadi kesalahan saat mengirim ulasan. Silakan coba lagi.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat mengirim ulasan. Silakan coba lagi.');
+                });
             });
-
+            
             function closePopup() {
                 document.getElementById('popup').classList.add('hidden');
                 document.getElementById('reviewForm').reset();
                 updateStars(-1);
+                // Redirect to home page after a short delay
+                setTimeout(() => {
+                    window.location.href = "{{ route('home') }}";
+                }, 500);
             }
         </script>
     </body>
