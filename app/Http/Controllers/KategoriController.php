@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,70 +14,97 @@ class KategoriController extends Controller
         $this->middleware(['auth', 'admin'])->except(['index', 'show']);
     }
 
-    public function index()
+    public function adminIndex()
     {
-        $categories = Kategori::withCount('produk')->paginate(10);
-        return view('kategori.index', compact('categories'));
+        $title = 'Category Management';
+        $categories = Category::withCount('product')->paginate(10);
+        return view('admin.category.index', compact('categories', 'title'));
     }
 
     public function create()
     {
-        return view('kategori.create');
+        return view('admin.category.create');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama' => 'required|unique:kategori|max:255',
-            'deskripsi' => 'nullable'
+            'name' => 'required|unique:categories|max:255',
+            'slug' => 'required|unique:categories,slug|max:255',
+            'description' => 'nullable',
+            'image' => 'nullable|image|mimes:jpeg,png|max:2048'
         ]);
 
-        $kategori = Kategori::create([
-            'nama' => $validated['nama'],
-            'slug' => Str::slug($validated['nama']),
-            'deskripsi' => $validated['deskripsi']
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('categories', 'public');
+        }
+
+        $kategori = Category::create([
+            'name' => $validated['name'],
+            'slug' => $validated['slug'],
+            'deskripsi' => $validated['description'] ?? null,
+            'image' => $imagePath
         ]);
 
-        return redirect()->route('kategori.index')
+        return redirect()->route('admin.kategori.index')
             ->with('success', 'Kategori berhasil ditambahkan');
     }
 
-    public function show(Kategori $kategori)
+    public function edit(Category $kategori)
     {
-        $produk = $kategori->produk()->paginate(12);
-        return view('kategori.show', compact('kategori', 'produk'));
+        $category = $kategori; // Rename variable to match the view expectations
+        return view('admin.category.edit', compact('category'));
     }
 
-    public function edit(Kategori $kategori)
-    {
-        return view('kategori.edit', compact('kategori'));
-    }
-
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, Category $kategori)
     {
         $validated = $request->validate([
-            'nama' => 'required|max:255|unique:kategori,nama,' . $kategori->id,
-            'deskripsi' => 'nullable'
+            'name' => 'required|max:255|unique:categories,name,' . $kategori->id,
+            'slug' => 'required|max:255|unique:categories,slug,' . $kategori->id,
+            'description' => 'nullable',
+            'image' => 'nullable|image|mimes:jpeg,png|max:2048'
         ]);
 
-        $kategori->update([
-            'nama' => $validated['nama'],
-            'slug' => Str::slug($validated['nama']),
-            'deskripsi' => $validated['deskripsi']
-        ]);
+        $data = [
+            'name' => $validated['name'],
+            'slug' => $validated['slug'],
+            'description' => $validated['description'] ?? null,
+        ];
 
-        return redirect()->route('kategori.index')
-            ->with('success', 'Kategori berhasil diperbarui');
-    }
-
-    public function destroy(Kategori $kategori)
-    {
-        if ($kategori->produk()->exists()) {
-            return back()->with('error', 'Tidak dapat menghapus kategori yang memiliki produk');
+        // Handle image update if new image is uploaded
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($kategori->image && file_exists(storage_path('app/public/' . $kategori->image))) {
+                unlink(storage_path('app/public/' . $kategori->image));
+            }
+            
+            $data['image'] = $request->file('image')->store('categories', 'public');
         }
 
+        $kategori->update($data);
+
+        return redirect()->route('admin.kategori.index')
+            ->with('success', 'Category updated successfully');
+    }
+
+    public function destroy(Category $kategori)
+    {
+        // Check if category has associated products
+        if ($kategori->product()->exists()) {
+            return back()->with('error', 'Cannot delete category with associated products');
+        }
+
+        // Delete the category image if it exists
+        if ($kategori->image && file_exists(storage_path('app/public/' . $kategori->image))) {
+            unlink(storage_path('app/public/' . $kategori->image));
+        }
+
+        // Delete the category
         $kategori->delete();
-        return redirect()->route('kategori.index')
-            ->with('success', 'Kategori berhasil dihapus');
+        
+        // Redirect with success message
+        return redirect()->route('admin.kategori.index')
+            ->with('success', 'Category deleted successfully');
     }
 }

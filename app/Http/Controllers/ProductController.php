@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'admin'])->except(['index', 'show']);
+        $this->middleware(['auth', 'admin'])->except(['index', 'show', 'showDetail', 'catalog', 'byCategory']);
     }
 
     public function index()
@@ -117,5 +117,117 @@ class ProductController extends Controller
 
         return redirect()->route('product.index')
             ->with('success', 'Product berhasil dihapus');
+    }
+
+    /**
+     * Display the product details to customers
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showDetail($id)
+    {
+        // Find the product by ID or return 404 if not found
+        $product = Product::findOrFail($id);
+        
+        // Calculate rental prices based on different durations
+        $rentalPrices = [
+            '1_week' => [
+                'days' => 7,
+                'total' => $product->calculateRentalPrice(7),
+                'per_day' => $product->calculateRentalPrice(7) / 7
+            ],
+            '2_weeks' => [
+                'days' => 14,
+                'total' => $product->calculateRentalPrice(14),
+                'per_day' => $product->calculateRentalPrice(14) / 14
+            ],
+            '3_weeks' => [
+                'days' => 21,
+                'total' => $product->calculateRentalPrice(21),
+                'per_day' => $product->calculateRentalPrice(21) / 21
+            ],
+            '4_weeks' => [
+                'days' => 28,
+                'total' => $product->calculateRentalPrice(28),
+                'per_day' => $product->calculateRentalPrice(28) / 28
+            ],
+        ];
+        
+        $title = $product->name;
+        
+        return view('produk', compact('product', 'rentalPrices', 'title'));
+    }
+    
+    /**
+     * Display catalog of products to customers
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function catalog(Request $request)
+    {
+        $query = Product::query()->with('category');
+        
+        // Filter by category if provided
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+        
+        // Filter by search term if provided
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+        
+        // Sort products
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'price_low':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_high':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'newest':
+                    $query->latest();
+                    break;
+                default:
+                    $query->latest();
+            }
+        } else {
+            $query->latest();
+        }
+        
+        // Get the products with pagination
+        $products = $query->where('stock', '>', 0)->paginate(12);
+        $categories = Category::all();
+        
+        $title = 'Katalog Produk';
+        
+        return view('catalog', compact('products', 'categories', 'title'));
+    }
+    
+    /**
+     * Show products by category to customers
+     *
+     * @param  int  $categoryId
+     * @return \Illuminate\Http\Response
+     */
+    public function byCategory($categoryId)
+    {
+        $category = Category::findOrFail($categoryId);
+        $products = Product::where('category_id', $categoryId)
+            ->where('stock', '>', 0)
+            ->latest()
+            ->paginate(12);
+        $categories = Category::all();
+        
+        $title = 'Kategori: ' . $category->name;
+        
+        return view('catalog', compact('products', 'categories', 'category', 'title'));
     }
 }

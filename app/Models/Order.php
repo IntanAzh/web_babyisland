@@ -22,7 +22,9 @@ class Order extends Model
         'end_date',
         'total_price',
         'address',
-        'status'
+        'notes',
+        'status',
+        'courier'
     ];
 
     public function user()

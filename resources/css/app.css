@@ -35,11 +35,19 @@
   .table-sewa {
     padding: 70px;
   }
-
   form.form-detail input, form.form-detail select,  form.form-detail textarea {
     border: none;
     outline: none;
     background-color: #FEF2E0;
+    padding: 10px;
+    border-radius: 0.375rem;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+  }
+
+  form.form-detail input:focus, form.form-detail select:focus, form.form-detail textarea:focus {
+    box-shadow: 0 0 0 2px rgba(251, 215, 162, 0.5);
+    background-color: #FEF6ED;
   }
 
 

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('owner_name', 100);
             $table->string('account_number', 50);
             $table->string('invoice');
-            $table->enum('status', ['pending', 'verified', 'rejected'])->default('pending');
+            $table->enum('status', ['pending','verified','rejected'])->default('pending');
             $table->timestamps();
         });
     }
