@@ -84,7 +84,7 @@ class TransactionController extends ApiController
         ]);
         
         // Update order status to processing
-        $order->status = 'processing';
+        $order->status = 'process';
         $order->save();
         
         return $this->successResponse(

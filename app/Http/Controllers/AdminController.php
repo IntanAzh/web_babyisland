@@ -17,19 +17,17 @@ class AdminController extends Controller
     public function dashboard()
     {
         $info = [
-            'total_users' => User::where('role', 'user')->count(),
-            'total_products' => Product::count(),
-            'total_orders' => Order::count(),
-            'total_transactions' => Order::where('status', 'complete')->sum('total_price'),
-            'recent_orders' => Order::with('user', 'product')
-                ->latest()
-                ->limit(5)
-                ->get(),
+            'total_users' => 10,
+            'total_products' => 20,
+            'total_orders' => 30,
+            'total_transactions' => 500000,
+            'recent_orders' => collect([]), // kosongkan dulu
             'title' => 'Register'
         ];
 
         return view('admin.dashboard', compact('info'));
     }
+
 
     public function products()
     {

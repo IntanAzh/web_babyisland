@@ -57,7 +57,7 @@ class ReviewController extends ApiController
         // Check if user has purchased/rented this product before
         $hasOrdered = Order::where('user_id', $request->user()->id)
             ->where('product_id', $request->product_id)
-            ->where('status', 'completed')
+            ->where('status', 'complete')
             ->exists();
             
         if (!$hasOrdered) {
