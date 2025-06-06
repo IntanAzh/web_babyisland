@@ -21,10 +21,10 @@ class UserController extends Controller
         $stats = [
             'total_orders' => $user->orders()->count(),
             'active_orders' => $user->orders()
-                ->whereIn('status', ['processing', 'shipped', 'rented'])
+                ->whereIn('status', ['process', 'sent', 'delivered'])
                 ->count(),
             'completed_orders' => $user->orders()
-                ->where('status', 'completed')
+                ->where('status', 'complete')
                 ->count()
         ];
 

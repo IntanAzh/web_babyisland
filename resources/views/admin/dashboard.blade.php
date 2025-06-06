@@ -160,23 +160,24 @@
                     @foreach ($info['recent_orders'] as $order)
                         <tr class="border-b">
                             <td class="px-4 py-3">#000574</td>
-                            <td class="px-4 py-3">{{ $order->user->username ?? 'N/A' }}</td>
-                            <td class="px-4 py-3">{{ $order->product->name ?? 'N/A' }}</td>
+                            <td class="px-4 py-3">{{ optional($order->user)->username ?? 'N/A' }}</td>
+                            <td class="px-4 py-3">{{ optional($order->product)->name ?? 'N/A' }}</td>
+
                             <td class="px-4 py-3">14 Apr 25</td>
                             <td class="px-4 py-3 text-green-600">Finished</td>
                             <td class="px-4 py-3">Rp. 265.000</td>
                         </tr>
                         {{-- <tr class="border-t">
-                                    <td class="px-4 py-2">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-2">{{ $order->user->name ?? 'N/A' }}</td>
-                                    <td class="px-4 py-2">
-                                        @foreach ($order->produk as $produk)
-                                            {{ $produk->nama }}<br>
-                                        @endforeach
-                                    </td>
-                                    <td class="px-4 py-2">{{ $order->created_at->format('d M Y') }}</td>
-                                    <td class="px-4 py-2">{{ ucfirst($order->status) }}</td>
-                                </tr> --}}
+                            <td class="px-4 py-2">{{ $loop->iteration }}</td>
+                            <td class="px-4 py-2">{{ $order->user->name ?? 'N/A' }}</td>
+                            <td class="px-4 py-2">
+                                @foreach ($order->produk as $produk)
+                                {{ $produk->nama }}<br>
+                                @endforeach
+                            </td>
+                            <td class="px-4 py-2">{{ $order->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-2">{{ ucfirst($order->status) }}</td>
+                        </tr> --}}
                     @endforeach
                 </tbody>
             </table>
